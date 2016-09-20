@@ -9,13 +9,14 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="jplayer/jquery.jplayer.min.js"></script>
+    <script type="text/javascript" src="jplayer/jplayer.playlist.min.js"></script>
     <script type="text/javascript" src="scripts.js"></script>
 </head>
 <body>
 
 <div id="jp_container_1" class="jp-video jp-video-360p" role="application" aria-label="media player">
     <div class="jp-type-single">
-        <div id="jplayer_viewport" class="jp-jplayer"></div>
+        <div id="jplayer_player_1" class="jp-jplayer"></div>
         <!--main containers for our controls-->
 		<div class="jp-gui">
 		    <div class="jp-interface">
@@ -56,13 +57,39 @@
 		        </div><!--end jp-controls-holder-->
 		    </div><!--end jp-interface-->
 		</div><!--end jp-gui-->
-        
+        <div class="jp-playlist">
+            <ul>
+                <li></li> <!-- Empty <li> so your HTML conforms with the W3C spec -->
+            </ul>
+        </div>
         <div class="jp-no-solution">
             <span>Update Required</span>
             To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
         </div>
     </div>
-</div>
-
+    <!--customization-->
+    <div class="playlist-container">
+        <ol class="playlist">
+            <li class="active playlist-item" onclick="run('title1', 'http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3', 'jplayer/viewport.jpg', 'media/gatsuurhan.xml')">
+                <figure>
+                    <img width=50 height=50 src="jplayer/viewport.jpg"/>
+                </figure>
+                <span>title1</span>
+            </li>
+            <li class="playlist-item" onclick="run('title2', 'http://www.jplayer.org/audio/mp3/TSP-05-Your_face.mp3', 'jplayer/2.jpg', 'media/gatsuurhan2.xml')">
+                <figure>
+                    <img width=50 height=50 src="jplayer/2.jpg"/>
+                </figure>
+                <span>title2</span>
+            </li>
+            <li class="playlist-item" onclick="run('title3', 'http://www.jplayer.org/audio/mp3/TSP-07-Cybersonnet.mp3', 'jplayer/3.jpg', 'media/gatsuurhan3.xml')">
+                <figure>
+                    <img width=50 height=50 src="jplayer/3.jpg"/>
+                </figure>
+                <span>title3</span>
+            </li>
+        </ol>
+    </div>
+    </div>
 </body>
 </html>

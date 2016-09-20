@@ -326,3 +326,44 @@ a.jp-unmute {
 }
 .jp-full-screen{ display:none !important; }
 .jp-restore-screen{ display:block !important; }
+/*customization*/
+.jp-video-360p {
+	width: 570px;
+	margin: 100px auto;
+	position: relative;
+	padding-right: 200px;
+}
+
+.playlist-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 570px;
+	height: 100%;
+
+}
+ol .playlist {
+	background-color: #222;
+	bottom: 0;
+	counter-reset: playlist-video-section;
+	left: 0;
+	overflow: auto;
+	right: 0;
+	position: absolute;
+	top: 100px;
+}
+
+ol {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	background: transparent;
+	list-style: none;
+}
+
+li  {
+	background-color: #3a3a3a;
+	height: 61px;
+	width: auto;
+}
