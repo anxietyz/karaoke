@@ -363,7 +363,52 @@ ol {
 }
 
 li  {
-	background-color: #3a3a3a;
-	height: 61px;
-	width: auto;
+	background-color: #000;
+}
+/* styling playlist */
+.playlist-container li {
+	min-height: 53px;
+}
+li.playlist-item {
+	padding-top: 3px;
+	position: relative;
+	padding-left: 60px
+}
+li.playlist-item:first-child {
+	padding-top: 0;
+}
+li.playlist-item:hover {
+	background: #3a3a3a;
+	cursor: pointer;
+}
+li.playlist-item.active {
+	background-color: #525252;
+}
+li.playlist-item figure {
+	position: absolute;
+	left: 5px;
+}
+li.playlist-item span {
+	color: #fff;
+	opacity: .6;
+	margin-top: 3px;
+	display: inline-block;
+}
+li.playlist-item:hover span {
+	opacity: .8;
+}
+li.playlist-item,
+li.playlist-item span {
+	transition: all .2s;
+}
+li.playlist-item.active span {
+	opacity: 1;
+}
+.playlist-container ol {
+	height: 100%;
+	background-color: #000;
+}
+/* styling subtitles */
+#jplayer_player_1 {
+    position: relative;
 }
