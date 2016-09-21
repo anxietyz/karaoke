@@ -1,5 +1,14 @@
 $(document).ready(function() {
     window.empty = $('.jp-type-single')[0].outerHTML;
+    var listOfLis = $('.playlist-container .playlist-item');
+
+    // class "active" switcher
+    listOfLis.each(function(){
+       $(this).on("click",function(){
+           listOfLis.filter('li.active').removeClass('active');
+           $(this).addClass('active');
+       });
+    });
 });
 
 
