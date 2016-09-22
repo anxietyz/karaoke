@@ -16,8 +16,9 @@ $(document).ready(function() {
 });
 
 // calculation of delay time minus 6 seconds for countdown screen saver
+var arrayOfCountdown = ['GO',1,2,3];
 function delayTime(){
-    var time = ($(karaoke).find('karaoke add:first-child').attr('startTime') - 6) * 1000;
+    var time = ($(karaoke).find('karaoke add:first-child').attr('startTime') - (arrayOfCountdown.length + 1)) * 1000;
     return Math.round(time);
 }
 // start screen saver with proper delay
@@ -30,7 +31,7 @@ function startSong(timeBefore){
 // Object for countdown
 function Countdown(parentNode){
     this.parentNode = parentNode;
-    this.countdownData = ['GO',1,2,3,4];
+    this.countdownData = arrayOfCountdown;
     this.background = $('<div class="countdown-bg">');
     this.coundownNumbers = $('<div class="wrapper-for-numbers"><span class="numbers"></span></div>');
     this.interval = null;
@@ -89,12 +90,12 @@ function run(title, jpg, poster, lyrics) {
                         var et = $(this).attr('endTime');
 
                         var sts = st.split(':');
-                        st = parseFloat(sts[0], 10) * 60 * 60 + parseFloat(sts[1], 10) * 60 + parseFloat(sts[2]);
+                        st = parseFloat(sts[0]) * 60 * 60 + parseFloat(sts[1]) * 60 + parseFloat(sts[2]);
                         $(this).attr('startTime', st);
                         window.karaoke_stimes.push(st);
 
                         var ets = et.split(':');
-                        et = parseFloat(ets[0], 10) * 60 * 60 + parseFloat(ets[1], 10) * 60 + parseFloat(ets[2]);
+                        et = parseFloat(ets[0]) * 60 * 60 + parseFloat(ets[1]) * 60 + parseFloat(ets[2]);
                         $(this).attr('endTime', et);
                         window.karaoke_etimes.push(et);
                     });
@@ -134,7 +135,7 @@ function run(title, jpg, poster, lyrics) {
                         si = 0;
                         md = md + 1;
                     }
-
+                    // console.log(event.jPlayer.status.currentTime);
                     for (var i = si; i < md; i++) {
                         if (currentTime >= window.karaoke_stimes[i] && currentTime <= window.karaoke_etimes[i] && i > window.karaoke_current_index) {
                             $('#karaoke_lyrics').html("");
