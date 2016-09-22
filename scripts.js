@@ -1,16 +1,66 @@
 $(document).ready(function() {
     window.empty = $('.jp-type-single')[0].outerHTML;
-    var listOfLis = $('.playlist-container .playlist-item');
 
     // class "active" switcher
+    var listOfLis = $('.playlist-container .playlist-item');
     listOfLis.each(function(){
        $(this).on("click",function(){
            listOfLis.filter('li.active').removeClass('active');
            $(this).addClass('active');
        });
     });
+
+
+
+
 });
 
+// calculation of delay time minus 6 seconds for countdown screen saver
+function delayTime(){
+    var time = ($(karaoke).find('karaoke add:first-child').attr('startTime') - 6) * 1000;
+    return Math.round(time);
+}
+// start screen saver with proper delay
+function startSong(timeBefore){
+    clearTimeout(window.timeoutForCountdown);
+        window.timeoutForCountdown = setTimeout(function(){
+        new Countdown($('#jplayer_player_1'));
+    }, timeBefore);
+}
+// Object for countdown
+function Countdown(parentNode){
+    this.parentNode = parentNode;
+    this.countdownData = ['GO',1,2,3,4];
+    this.background = $('<div class="countdown-bg">');
+    this.coundownNumbers = $('<div class="wrapper-for-numbers"><span class="numbers"></span></div>');
+    this.interval = null;
+    this.timeout = null;
+    this._buildHTML(this.parentNode);
+    this._numbersIterate();
+}
+Countdown.prototype._buildHTML = function (parentNode) {
+    parentNode.append(this.background);
+    parentNode.append(this.coundownNumbers);
+};
+Countdown.prototype._numbersIterate = function () {
+    var _this = this;
+    var num = $('.numbers');
+    this.interval = setInterval(function(){
+        if (_this.countdownData.length === 0){
+            _this._destroyHTML(_this.parentNode);
+            clearInterval(_this.interval);
+        }
+        num.removeClass('show-number');
+        num.text(_this.countdownData.pop());
+        setTimeout(function () {
+            num.addClass('show-number');
+        },20);
+    }, 1000);
+};
+Countdown.prototype._destroyHTML = function (parentNode){
+    $(parentNode).find($(".countdown-bg")).remove();
+    $(parentNode).find($('.wrapper-for-numbers')).remove();
+};
 
 function run(title, jpg, poster, lyrics) {
     (function ($) {
@@ -33,6 +83,7 @@ function run(title, jpg, poster, lyrics) {
                     window.karaoke_current_index = -1;
                     window.karaoke = $(data);
 
+
                     $(data).find('karaoke > add').each(function (index) {
                         var st = $(this).attr('startTime');
                         var et = $(this).attr('endTime');
@@ -49,7 +100,7 @@ function run(title, jpg, poster, lyrics) {
                     });
 
                     $this.jPlayer("play");
-
+                    startSong(delayTime());
                     setTimeout(function () {
                         $('#karaoke_lyrics').html($(data).find('details singer').text() + ' - ' + $(data).find('details name').text());
                     }, 3000);
