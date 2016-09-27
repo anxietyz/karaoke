@@ -125,42 +125,39 @@ function run(title, jpg, poster, lyrics) {
                 var $karaoke = window.karaoke;
                 var currentTime = event.jPlayer.status.currentTime;
                 if ($karaoke !== null && window.karaoke_stimes) {
-                    var md = parseInt(window.karaoke_stimes.length / 2);
-                    var si = 0;
-                    if (currentTime > window.karaoke_stimes[md]) {
-                        si = md;
-                        md = window.karaoke_stimes.length;
-                    }
-                    else {
-                        si = 0;
-                        md = md + 1;
-                    }
-                    // console.log(event.jPlayer.status.currentTime);
-                    for (var i = si; i < md; i++) {
-                        if (currentTime >= window.karaoke_stimes[i] && currentTime <= window.karaoke_etimes[i] && i > window.karaoke_current_index) {
-                            $('#karaoke_lyrics').html("");
-                            var sumDuration = 0;
-                            $karaoke.find('karaoke > add').eq(i).find('entry').each(function () {
-                                var $layer = $('<span></span>').text($(this).text());
-                                var $text = $('<span class="word"></span>').text($(this).text()).append($layer);
-                                var duration = parseInt($(this).attr('duration')) / 1000;
-                                $text.css({
-                                    '-webkit-animation-duration': duration + "s",
-                                    '-moz-animation-duration': duration + "s",
-                                    '-ms-animation-duration': duration + "s",
-                                    '-o-animation-duration': duration + "s",
-                                    'animation-duration': duration + "s"
+                    var md = parseInt(window.karaoke_stimes.length);
+                    for (var i = 0; i < md; i++) {
+                        (function(i){
+                            if (currentTime >= window.karaoke_etimes[i-1] && currentTime <= window.karaoke_stimes[i]) {
+                                var entry = $karaoke.find('karaoke > add').eq(i).find('entry').text();
+                                $('#karaoke_lyrics').html("");
+                                var text = $('<span class="word"></span>');
+                                entry.each(function(){
+                                    text.append($(this).text() + " ")
                                 });
-                                setTimeout(function () {
-                                    $text.addClass('animate');
-                                }, sumDuration);
-                                sumDuration += duration * 1000;
-                                $('#karaoke_lyrics').append($text);
-                            });
-                            window.karaoke_current_index = i;
-                        }
+                                $('#karaoke_lyrics').append(text);
+                            } else if (currentTime >= window.karaoke_stimes[i] && currentTime <= window.karaoke_etimes[i]) {
+                                debugger
+                                var entry = $karaoke.find('karaoke > add').eq(i).find('entry');
+                                $('#karaoke_lyrics').html("");
+                                var text = $('<span class="word"></span>');
+                                entry.each(function(){
+                                    text.append($(this).text() + " ")
+                                });
+                                $('#karaoke_lyrics').append(text);
+                            } else if (currentTime >= window.karaoke_etimes[i] && currentTime <= window.karaoke_stimes[i+1]) {
+                                var entry = $karaoke.find('karaoke > add').eq(i+1).find('entry').text();
+                                $('#karaoke_lyrics').html("");
+                                var text = $('<span class="word"></span>');
+                                entry.each(function(){
+                                    text.append($(this).text() + " ")
+                                });
+                                $('#karaoke_lyrics').append(text);
+                            } else if (currentTime >= window.karaoke_etimes[i] && window.karaoke_stimes[i+1] === undefined) {
+                                $('#karaoke_lyrics').html("");
+                            }
+                        })(i);
                     }
-
                 }
             }
         });
