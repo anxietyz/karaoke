@@ -59,6 +59,15 @@ Countdown.prototype._destroyHTML = function (parentNode){
     jQuery(parentNode).find(jQuery('.wrapper-for-numbers')).remove();
 };
 
+window.itoe = 0;
+function itoe(i) {
+    debugger
+    if (window.itoe === i){
+        return false;
+    } else {
+        return true;
+    }
+}
 
 function run(title, jpg, poster, lyrics) {
     (function ($) {
@@ -92,7 +101,7 @@ function run(title, jpg, poster, lyrics) {
                         var color = jQuery(this).attr('color');
                         var endTime = parseFloat(jQuery(karaoke.find('word')[index+1]).attr('position'));
                         if (isNaN(endTime)){var endTime = parseFloat(jQuery(karaoke.find('word')[index]).attr('position'))+0.5};
-                        var duration = (endTime - startTime).toFixed(2);
+                        var duration = (endTime - startTime).toFixed(4);
                         karaoke_text_temp.push({word :word, color: color, startTime: startTime, endTime: endTime, duration: duration});
                         if (jQuery(this).attr('position') === jQuery(karaoke.find('word')[karaoke.find('word').length-1]).attr('position') || currentAmountOfSymbols > maxSymbols){
                             var tempAll = [];
@@ -115,7 +124,7 @@ function run(title, jpg, poster, lyrics) {
                     // var jp = jQuery('#jplayer_player_1');
                     // var jpData = jp.data('jPlayer');
                     // console.log('adf',jpData.status.currentTime);
-
+                    window.itoe = 0;
                     setTimeout(function () {
                         jQuery('#karaoke_lyrics').html(jQuery(data).find('details singer').text() + ' - ' + jQuery(data).find('details name').text());
                     }, 3000);
@@ -145,33 +154,33 @@ function run(title, jpg, poster, lyrics) {
                         (function(i){
                             // debugger
                             if (karaoke[i-1] !== undefined && currentTime >= karaoke[i-1][0].arrayEnd && currentTime <= karaoke[i][0].arrayStart) {
-                                window.flag = true;
                                 // jQuery('#karaoke_lyrics').html("");
                                 // jQuery(karaoke[i]).each(function(){
                                 //     var $layer = jQuery('<span></span>').text(this.word);
                                 //     var $text = jQuery('<span class="word"></span>').text(this.word).append($layer);
                                 //     jQuery('#karaoke_lyrics').append($text);
                                 // });
-                            } else if (currentTime >= karaoke[i][0].arrayStart && currentTime <= karaoke[i][0].arrayEnd) {
-                                window.flag = false;
+                            } else if (currentTime >= karaoke[i][0].arrayStart && currentTime <= karaoke[i][0].arrayEnd && window.itoe === i) {
+                                window.itoe = i+1 ;
                                 jQuery('#karaoke_lyrics').html("");
                                 var sumDuration = 0;
                                 jQuery(karaoke[i][1]).each(function(index) {
-                                    console.log(this.word);
                                     var $layer = jQuery('<span></span>').text(this.word);
                                     var $text = jQuery('<span class="word"></span>').text(this.word).append($layer);
-                                    // var duration = this.duration;
-                                    // $text.css({
-                                    //     '-webkit-animation-duration': duration + "s",
-                                    //     '-moz-animation-duration': duration + "s",
-                                    //     '-ms-animation-duration': duration + "s",
-                                    //     '-o-animation-duration': duration + "s",
-                                    //     'animation-duration': duration + "s"
-                                    // });
-                                    // setTimeout(function () {
-                                    //     $text.addClass('animate');
-                                    // }, sumDuration);
-                                    // sumDuration += duration * 1000;
+                                    // debugger
+                                    var duration = this.duration;
+                                    $layer.css({
+                                        "-webkit-transition-duration": duration + "s",
+                                        "-moz-transition-duration": duration + "s",
+                                        "-ms-transition-duration": duration + "s",
+                                        "-o-transition-duration": duration + "s",
+                                        "transition-duration": duration + "s",
+                                        "color": this.color
+                                    });
+                                    setTimeout(function () {
+                                        $layer.addClass('animate');
+                                    }, sumDuration);
+                                    sumDuration += duration * 1000;
                                     jQuery('#karaoke_lyrics').append($text);
                                 });
                             }
